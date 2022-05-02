@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars list</title>
+</head>
+<body>
+<h1>User base operation page </h1>
+<form action="/main">
+    <fieldset>
+        <legend>Available users</legend>
+        <table border="1" width="75%">
+            <tr>
+                <th width="10%">ID</th>
+                <th width="35%">Name</thwidth>
+                <th width="35%">Lastname</th>
+                <th>Age</th>
+            </tr>
+            <th:block th:each="user : ${users}">
+                <tr>
+                    <td th:utext="${user.id}"></td>
+                    <td th:utext="${user.name}"></td>
+                    <td th:utext="${user.lastname}"></td>
+                    <td th:utext="${user.age}"></td>
+                </tr>
+            </th:block>
+        </table>
+    </fieldset>
+</form>
+</br>
+<form action="/hello/delete">
+    <fieldset>
+        <legend>Remove selected user</legend>
+        <p><label for="removeId"> Input ID <em></em></label><input type="number" id="removeId" min="1" name="id"></p>
+        </br>
+        <p><input type="submit" value="Remove"></p>
+    </fieldset>
+</form>
+</br>
+<form action="/hello/create">
+    <fieldset>
+        <legend>Add a new user</legend>
+        <p><label for="name"> Name <em></em></label><input type="text" id="name" size="50" name="name"></p>
+        <p><label for="lastname"> Lastname <em></em></label><input type="text" id="lastname" size="50" name="lastname"></p>
+        <p><label for="age"> Age <em></em></label><input type="number" id="age" min="1" max="254" name="age"></p>
+        </br>
+        <p><input type="submit" value="Create"></p>
+    </fieldset>
+</form>
+
+<form action="/hello/update">
+    <fieldset>
+        <legend>Update exist user</legend>
+        <p><label for="id"> ID <em></em></label><input type="number" id="id" min="1" name="id"></p>
+        <p><label for="name"> Name <em></em></label><input type="text" id="name" size="50" name="name"></p>
+        <p><label for="lastname"> Lastname <em></em></label><input type="text" id="lastname" size="50" name="lastname"></p>
+        <p><label for="age"> Age <em></em></label><input type="number" id="age" min="1" max="254" name="age"></p>
+        </br>
+        <p><input type="submit" value="Update"></p>
+    </fieldset>
+</form>
+</body>
+</html>|
