@@ -3,9 +3,7 @@ package web.utits;
 import web.dao.UserDAOImpl;
 import web.models.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -23,24 +21,24 @@ public class UserService {
     public void addAnyUser() {
         User eddi = new User("Eduard", "Sharipov", (byte) 45);
         System.out.println("New Eddi save" + eddi);
-        userDAO.add(eddi);
+        userDAO.addUser(eddi);
     }
 
     @Transactional
     public void add(User user) {
-        userDAO.add(user);
+        userDAO.addUser(user);
     }
 
     @Transactional
     public void removeById(Long id) {
-        userDAO.remove(id);
+        userDAO.removeUser(id);
     }
     @Transactional
     public void update(User user) {
-        userDAO.update(user);
+        userDAO.updateUser(user);
     }
     @Transactional
     public List<User> getAllUsers() {
-        return userDAO.listUsers();
+        return userDAO.getAllUsers();
     }
 }

@@ -4,8 +4,6 @@ import web.models.User;
 
 import org.hibernate.Session;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -35,36 +33,40 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional (propagation = Propagation.REQUIRED)
-    public void add(User user) {
+    public void addUser(User user) {
         getSession().save(user);
         getSession().flush();
     }
 
     @Override
-    public void remove(long id) {
-        User user = read(id);
+    public void removeUser(long id) {
+        User user = readUserById(id);
         if (user!=null) {
             getSession().delete(user);
+            getSession().flush();
         }
     }
 
     @Override
-    public void update(User user) {
-        User userUpdate = read(user.getId());
+    public void updateUser(User user) {
+        System.out.println("DAO Update user " + user);
+        User userUpdate = readUserById(user.getId());
         userUpdate.setName(user.getName());
         userUpdate.setLastname(user.getLastname());
         userUpdate.setAge(user.getAge());
-        getSession().update(userUpdate);
+        System.out.println("DAO Update user/2 " + userUpdate);
+        getSession().saveOrUpdate(userUpdate);
+        getSession().flush();
     }
 
     @Override
-    public User read(long id) {
+    public User readUserById(long id) {
         return getSession().get(User.class, id);
     }
 
     @Override
     @Transactional (propagation = Propagation.REQUIRED)
-    public List<User> listUsers() {
+    public List<User> getAllUsers() {
         return getSession().createQuery("FROM User").getResultList();
     }
 }

@@ -36,16 +36,17 @@ public class UserController {
     }
 
     @GetMapping (value="/create")
-    public String removeUser (@RequestParam(required = true) String name, String lastname, Byte age, Model model) {
+    public String createUser (@RequestParam(required = true) String name, String lastname, Byte age, Model model) {
         User user = new User(name, lastname, age);
         userService.add(user);
         return "redirect:/main";
     }
 
     @GetMapping (value="/update")
-    public String removeUser (@RequestParam(required = true) Long id, String name, String lastname, Byte age, Model model) {
+    public String updateUser (@RequestParam(required = true) Long id, String name, String lastname, Byte age, Model model) {
         User user = new User(name, lastname, age);
         user.setId(id);
+        System.out.println("Update user " + user);
         userService.update(user);
         return "redirect:/main";
     }
