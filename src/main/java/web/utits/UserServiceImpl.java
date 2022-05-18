@@ -1,12 +1,9 @@
 package web.utits;
 
+import org.springframework.stereotype.Component;
 import web.dao.UserDAO;
 import web.dao.UserDAOImpl;
 import web.models.User;
-
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
@@ -35,7 +32,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<User> getAllUsers() {
-        System.out.println("service start - all users");
         return userDAO.getAllUsers();
     }
 }
