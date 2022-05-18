@@ -59,7 +59,6 @@ public class UserDAOImpl implements UserDAO {
         getSession().flush();
     }
 
-    @Override
     public User readUserById(long id) {
         return getSession().get(User.class, id);
     }
