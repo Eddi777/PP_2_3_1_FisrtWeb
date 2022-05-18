@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class UserController {
 
-    @Autowired
-    UserService userService = new UserService();
+    private final UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping (value="/main")
     public String mainPage (Model model) {
@@ -30,18 +32,14 @@ public class UserController {
     @GetMapping (value="/delete")
     public String removeUser (@RequestParam(required = true) Long id, Model model) {
         userService.removeById(id);
-        List<User> messages = userService.getAllUsers();
-        model.addAttribute("users", messages);
-        return "main";
+        return "redirect:/main";
     }
 
     @GetMapping (value="/create")
     public String removeUser (@RequestParam(required = true) String name, String lastname, Byte age, Model model) {
         User user = new User(name, lastname, age);
         userService.add(user);
-        List<User> messages = userService.getAllUsers();
-        model.addAttribute("users", messages);
-        return "main";
+        return "redirect:/main";
     }
 
     @GetMapping (value="/update")
@@ -49,8 +47,6 @@ public class UserController {
         User user = new User(name, lastname, age);
         user.setId(id);
         userService.update(user);
-        List<User> messages = userService.getAllUsers();
-        model.addAttribute("users", messages);
-        return "main";
+        return "redirect:/main";
     }
 }

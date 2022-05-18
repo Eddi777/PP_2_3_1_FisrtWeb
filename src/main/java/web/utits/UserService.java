@@ -14,8 +14,10 @@ import java.util.List;
 @Component
 public class UserService {
 
-    @Autowired
-    private UserDAOImpl userDAO;
+    private final UserDAOImpl userDAO;
+    public UserService(UserDAOImpl userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Transactional
     public void addAnyUser() {

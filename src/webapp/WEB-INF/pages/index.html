@@ -8,9 +8,11 @@
 <body>
 <div>
     <th:block th:each="msg : ${messages}">
-        <h1 th:text="${msg}"></h1>
+        <h3 th:text="${msg}"></h3>
     </th:block>
 </div>
-<a href="/hello/main">Jamp to database page</a>
+<form action="/spring_mvc_war_exploded/main">
+    <button type="submit">Click Me</button>
+</form>
 </body>
 </html>

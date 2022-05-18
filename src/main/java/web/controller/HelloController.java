@@ -14,8 +14,8 @@ public class HelloController {
 	public String printWelcome(ModelMap model) {
 		List<String> messages = new ArrayList<>();
 		messages.add("Hello!");
-		messages.add("I'm Spring MVC application");
-		messages.add("5.2.0 version by sep'19 ");
+		messages.add("Welcome to Eduard Sharipov PP 2.3.1 exercise Page");
+		messages.add("Please ckick to button below and jump to Admin Page");
 		model.addAttribute("messages", messages);
 		return "index";
 	}

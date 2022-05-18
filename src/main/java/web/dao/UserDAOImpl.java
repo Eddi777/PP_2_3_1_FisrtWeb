@@ -19,8 +19,10 @@ import java.util.List;
 @EnableTransactionManagement(proxyTargetClass = true)
 public class UserDAOImpl implements UserDAO {
 
-    @Autowired
-    private HibernateTransactionManager transactionManager;
+    private final HibernateTransactionManager transactionManager;
+    public UserDAOImpl(HibernateTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
 
     private Session getSession() {
         if (transactionManager.getSessionFactory().getCurrentSession().getTransaction().isActive()) {
