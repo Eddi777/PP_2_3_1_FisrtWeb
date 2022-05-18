@@ -1,49 +1,52 @@
 package web.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.TransactionManager;
 import web.models.User;
 
-import org.hibernate.Session;
-
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 
 import java.util.List;
 
 
 @Repository
 @EnableTransactionManagement(proxyTargetClass = true)
+@Transactional(value="entityManager")
+@javax.transaction.Transactional
 public class UserDAOImpl implements UserDAO {
 
-    private final HibernateTransactionManager transactionManager;
-    public UserDAOImpl(HibernateTransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
+    @PersistenceContext
+    @Qualifier("entityManager")
+    private final EntityManager entityManager;
 
-    private Session getSession() {
-        if (transactionManager.getSessionFactory().getCurrentSession().getTransaction().isActive()) {
-            return transactionManager.getSessionFactory().getCurrentSession();
-        } else {
-            transactionManager.getSessionFactory().getCurrentSession().beginTransaction();
-            return transactionManager.getSessionFactory().getCurrentSession();
-        }
+    public UserDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     @Transactional (propagation = Propagation.REQUIRED)
     public void addUser(User user) {
-        getSession().save(user);
-        getSession().flush();
+        entityManager.getTransaction();
+        entityManager.persist(user);
+        entityManager.flush();
+
+//        getSession().save(user);
+//        getSession().flush();
     }
 
     @Override
     public void removeUser(long id) {
         User user = readUserById(id);
         if (user!=null) {
-            getSession().delete(user);
-            getSession().flush();
+            entityManager.remove(user);
+            entityManager.flush();
         }
     }
 
@@ -55,18 +58,19 @@ public class UserDAOImpl implements UserDAO {
         userUpdate.setLastname(user.getLastname());
         userUpdate.setAge(user.getAge());
         System.out.println("DAO Update user/2 " + userUpdate);
-        getSession().saveOrUpdate(userUpdate);
-        getSession().flush();
+        entityManager.merge(userUpdate);
+        entityManager.flush();
     }
 
     public User readUserById(long id) {
-        return getSession().get(User.class, id);
+        return entityManager.find(User.class, id);
     }
 
     @Override
     @Transactional (propagation = Propagation.REQUIRED)
     public List<User> getAllUsers() {
-        return getSession().createQuery("FROM User").getResultList();
+        System.out.println("Request List from DAO");
+        return entityManager.createQuery("FROM User").getResultList();
     }
 }
 
